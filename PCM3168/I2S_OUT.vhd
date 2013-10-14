@@ -65,15 +65,14 @@ port(
 );
 end i2s_out;
 
-
 architecture rtl of i2s_out is
 
-   --signals 
+	--signals 
 	signal counter           : integer range 0 to width;
 	signal s_current_lr      : std_logic;
 		
 begin
-   
+
 	-- serial to parallel interface
 	i2s_out: process(RESET, BIT_CLK, LR_CLK, DATA_L, DATA_R)
 	begin
@@ -87,7 +86,7 @@ begin
 
 		elsif(BIT_CLK'event and BIT_CLK = '0') then
 		
-		   if(s_current_lr = LR_CLK) then
+			if(s_current_lr = LR_CLK) then
 				
 				if(s_current_lr = '1') then
 					DOUT <= DATA_R(counter);

@@ -26,8 +26,8 @@ ARCHITECTURE behavior OF clk_gen_tb_vhd IS
 		CLK          : IN std_logic;
 		RESET        : IN std_logic; 
 		LR_CLK       : OUT std_logic;
-		BIT_CLK      : OUT std_logic         
-		);
+		BIT_CLK      : OUT std_logic
+);
 	END COMPONENT;
 
 	--Inputs
@@ -47,9 +47,8 @@ BEGIN
 		RESET        => RESET,
 		LR_CLK       => LR_CLK,
 		BIT_CLK      => BIT_CLK
-	);
-	
-	
+);
+
 	p_reset : process
 	begin
 		RESET <= '0';
@@ -59,7 +58,7 @@ BEGIN
 		-- Reset finished
 		wait;
 	end process	p_reset;
-	
+
 	p_clk : process
 	begin
 		CLK <= '0';

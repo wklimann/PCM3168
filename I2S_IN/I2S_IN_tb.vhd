@@ -80,7 +80,7 @@ BEGIN
 		wait for 10 ns;
 	end process p_bit_clk;
 	
-   p_lr_clk : process
+	p_lr_clk : process
 	begin
 		LR_CLK <= '0';
 		wait for 480 ns;
@@ -91,7 +91,7 @@ BEGIN
 	p_din : process
 	variable i : POSITIVE :=1;
 	begin
-	   i := 1;
+		i := 1;
 		loop_1: while i <= 24 loop 
 			DIN <= '0';
 			wait for 20 ns;

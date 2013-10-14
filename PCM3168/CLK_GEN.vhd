@@ -30,8 +30,9 @@ use ieee.std_logic_1164.all;
 
 entity clk_gen is 
 -- width: How many bits (from MSB) are gathered from the serial I2S input
-generic(	width       : integer := 24;
-			clk_divider : integer := 4  -- a multiple of 2
+generic(
+		width       : integer := 24;
+		clk_divider : integer := 4  -- a multiple of 2
 		  );
 
 port(
@@ -50,12 +51,12 @@ end clk_gen;
 
 architecture rtl of clk_gen is
 
-   --signals 
+	--signals 
 	signal s_counter_bit       : integer range 0 to clk_divider;
 	signal s_counter_lr        : integer range 0 to width;
 	signal s_bit_clk           : std_logic;
 	signal s_lr_clk            : std_logic;
-		
+
 begin
 
 
@@ -65,7 +66,7 @@ begin
 	p_bit_clk: process(RESET, CLK)
 		variable v_lr_clk_enable : std_logic;
 	begin
-	   if(RESET = '0') then
+		if(RESET = '0') then
 		
 			BIT_CLK          <= '0';
 			LR_CLK           <= '0';
@@ -78,7 +79,7 @@ begin
 			v_lr_clk_enable  := '0';
 			
 		elsif (CLK'event and CLK = '1') then
-		   
+
 			if (s_counter_bit < (clk_divider-1)/2) then 
 				s_counter_bit <= s_counter_bit + 1;
 			else 
@@ -104,6 +105,6 @@ begin
 		end if; -- reset / rising_edge
 		BIT_CLK <= s_bit_clk;
 		LR_CLK  <= s_lr_clk;
-   end process p_bit_clk;
+	end process p_bit_clk;
 
 end rtl;

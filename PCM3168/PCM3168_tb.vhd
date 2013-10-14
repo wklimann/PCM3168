@@ -49,7 +49,7 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
 	uut: pcm3168 
 	PORT MAP(
-		CLK 	      => CLK,
+		CLK         => CLK,
 		RESET       => RESET,
 		DOUT_1      => DOUT_1,
 		DIN_1       => DIN_1
@@ -79,7 +79,7 @@ BEGIN
 	variable i      : POSITIVE :=1;
 	variable first  : POSITIVE :=2;
 	begin
-	   if (first = 2) then 
+		if (first = 2) then 
 			first := 1;
 			DIN_1 <= '0';
 			wait for 320 ns;

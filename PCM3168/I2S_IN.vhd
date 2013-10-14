@@ -66,13 +66,13 @@ end i2s_in;
 
 architecture rtl of i2s_in is
 
-   --signals 
+	--signals 
 	signal shift_reg         : std_logic_vector(width-1 downto 0);
 	signal s_parallel_load   : std_logic;
 	signal s_current_lr      : std_logic;
 		
 begin
-   
+
 	-- serial to parallel interface
 	i2s_in: process(RESET, BIT_CLK, LR_CLK, DIN)
 	begin
@@ -89,7 +89,7 @@ begin
 			
 		elsif(BIT_CLK'event and BIT_CLK = '1') then
 		
-		   if(s_current_lr = LR_CLK) then
+			if(s_current_lr = LR_CLK) then
 				-- Push data into the shift register
 				shift_reg(width-1 downto 1) <= shift_reg(width-2 downto 0);
 				shift_reg(0) <= DIN;	
@@ -98,21 +98,21 @@ begin
 						--Output Right Channel
 						DATA_R <= shift_reg;
 					else
-						--Output Left Channel					
+						--Output Left Channel
 						DATA_L <= shift_reg;
 					end if;
-				   s_parallel_load <= '0';
-				   DATA_RDY_L <= '0'; 
+					s_parallel_load <= '0';
+					DATA_RDY_L <= '0'; 
 					DATA_RDY_R <= '0'; 
 				end if;
 			else
-			   -- Push data into the shift register
+				-- Push data into the shift register
 				shift_reg(width-1 downto 1) <= shift_reg(width-2 downto 0);
 				shift_reg(0) <= DIN;	
 				-- setup for parallel register load 
 				s_parallel_load <= '1';
 				if (s_current_lr = '1') then
-				   DATA_RDY_R <= '1';
+					DATA_RDY_R <= '1';
 				else
 					DATA_RDY_L <= '1';
 				end if;

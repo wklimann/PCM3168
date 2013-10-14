@@ -64,16 +64,16 @@ end pcm3168;
 
 architecture structural of pcm3168 is
 
-   --signals 
+	--signals 
 	signal s_data_l     : std_logic_vector(width-1 downto 0);
 	signal s_data_r     : std_logic_vector(width-1 downto 0);
 	signal s_lr_clk     : std_logic;
 	signal s_bit_clk    : std_logic;
-	
+
 	component i2s_in is
 		generic(
 			width        : integer
-	);
+);
 		port(
 			LR_CLK       : in  std_logic;      --Left/Right indicator clock
 			BIT_CLK      : in  std_logic;      --Bit clock
@@ -83,13 +83,13 @@ architecture structural of pcm3168 is
 			DATA_R       : out std_logic_vector(width-1 downto 0);
 			DATA_RDY_L   : out std_logic;     --Falling edge means data is ready
 			DATA_RDY_R   : out std_logic      --Falling edge means data is ready
-		);
+);
 	end component i2s_in;
 
 	component i2s_out is
 		generic(
 			width        : integer
-	);
+);
 		port(
 			LR_CLK       : in  std_logic;      --Left/Right indicator clock
 			BIT_CLK      : in  std_logic;      --Bit clock
@@ -99,27 +99,27 @@ architecture structural of pcm3168 is
 			DATA_R       : in std_logic_vector(0 to width-1);
 			DATA_RDY_L   : out std_logic;      --Falling edge means data is ready
 			DATA_RDY_R   : out std_logic       --Falling edge means data is ready
-		);
+);
 	end component i2s_out;
 
 	component clk_gen is
 		generic(
 			width        : integer;
 			clk_divider  : integer
-	);
+);
 		port(
 			CLK          : in std_logic;       --System clock
 			RESET        : in std_logic;       --Asynchronous Reset (Active Low)
 			BIT_CLK      : out std_logic;      --Bit Clock
 			LR_CLK       : out std_logic       --Left/Right Clock
-		);
+);
 	end component clk_gen;
 		
 begin
-   
+
 BIT_CLK <= s_bit_clk;
 LR_CLK  <= s_lr_clk;
-	
+
 CLK_96k: clk_gen 
 				generic map(
 						width => width,
@@ -145,7 +145,7 @@ I2S_IN_1: i2s_in
 						DATA_R      =>  s_data_r,
 						DATA_RDY_L  =>  open,
 						DATA_RDY_R  =>  open
-);		
+);
 
 I2S_OUT_1: i2s_out 
 				generic map(

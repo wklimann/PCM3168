@@ -68,7 +68,7 @@ end i2s_out;
 
 architecture rtl of i2s_out is
 
-   --signals 
+	--signals 
 	signal counter           : integer range 0 to width;
 	signal s_current_lr      : std_logic;
 		
@@ -87,7 +87,7 @@ begin
 
 		elsif(BIT_CLK'event and BIT_CLK = '0') then
 		
-		   if(s_current_lr = LR_CLK) then
+			if(s_current_lr = LR_CLK) then
 				
 				if(s_current_lr = '1') then
 					DOUT <= DATA_R(counter);
@@ -95,7 +95,7 @@ begin
 					DOUT <= DATA_L(counter);
 				end if;
 				
-				if (counter < width-1) then
+				if(counter < width-1) then
 					counter <= counter + 1;
 				else
 					-- if there is a failure in the clk signals rate -> send 0 to DOUT
@@ -121,26 +121,5 @@ begin
 			end if; -- (s_current_lr = LR_CLK)
 		end if; -- reset / rising_edge
 	end process i2s_out;
-	
-	
---	-- LR_CLK generator
---	p_lr_clk: process(RESET, BIT_CLK)
---	begin
---	   if(RESET = '0') then
---			counter_lr_clk <= 0;
---			s_lr_clk       <= '0';
---		elsif (BIT_CLK'event and BIT_CLK = '0') then
---		   if (counter_lr_clk < width) then
---				counter_lr_clk <= counter_lr_clk + 1;
---			elsif (counter_lr_clk = width) then
---				s_lr_clk <= not s_lr_clk;
---				counter_lr_clk <= 0;
---		   else
---			   -- there should be a error message
---			   counter_lr_clk <= 0;
---		   end if;
---		end if;
---   end process p_lr_clk;
-
 
 end rtl;

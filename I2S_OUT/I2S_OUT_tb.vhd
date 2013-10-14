@@ -31,7 +31,7 @@ ARCHITECTURE behavior OF i2s_out_tb_vhd IS
 		DATA_L      : IN std_logic_vector(width-1 downto 0);
 		DATA_R      : IN std_logic_vector(width-1 downto 0);
 		DATA_RDY_L  : OUT std_logic;
-      DATA_RDY_R  : OUT std_logic		
+		DATA_RDY_R  : OUT std_logic		
 		);
 	END COMPONENT;
 
@@ -83,7 +83,7 @@ BEGIN
 	end process p_bit_clk;
 	
 	-- generates the LR clock signal 
-   p_lr_clk : process
+	p_lr_clk : process
 	begin
 		LR_CLK <= '0';
 		wait for 480 ns;
