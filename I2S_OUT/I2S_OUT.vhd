@@ -77,7 +77,7 @@ begin
 	-- serial to parallel interface
 	i2s_out: process(RESET, BIT_CLK, LR_CLK, DATA_L, DATA_R)
 	begin
-		if(RESET = '0') then
+		if(RESET = '1') then
 			
 			counter          <=  0;
 			s_current_lr     <= '0';

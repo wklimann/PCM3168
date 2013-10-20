@@ -76,7 +76,7 @@ begin
 	-- serial to parallel interface
 	i2s_in: process(RESET, BIT_CLK, LR_CLK, DIN)
 	begin
-		if(RESET = '0') then
+		if(RESET = '1') then
 		
 			DATA_L     <= (others => '0');
 			DATA_R     <= (others => '0');

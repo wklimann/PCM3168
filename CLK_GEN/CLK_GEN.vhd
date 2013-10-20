@@ -63,7 +63,7 @@ begin
 	p_bit_clk: process(RESET, CLK)
 		variable v_lr_clk_enable : std_logic;
 	begin
-		if(RESET = '0') then
+		if(RESET = '1') then
 
 			BIT_CLK          <= '0';
 			LR_CLK           <= '0';

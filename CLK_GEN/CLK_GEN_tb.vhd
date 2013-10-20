@@ -51,10 +51,10 @@ BEGIN
 
 	p_reset : process
 	begin
-		RESET <= '0';
+		RESET <= '1';
 		--LR_CK <= '1';
 		wait for 100 ns;
-		RESET <= '1';
+		RESET <= '0';
 		-- Reset finished
 		wait;
 	end process	p_reset;
