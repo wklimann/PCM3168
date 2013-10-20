@@ -31,7 +31,10 @@ ARCHITECTURE behavior OF pcm3168_tb_vhd IS
 	CLK         : in  std_logic;
 	RESET       : in  std_logic;
 	DIN_1       : in  std_logic;
-	DOUT_1      : out std_logic
+	DOUT_1      : out std_logic;
+	LR_CLK      : out std_logic;
+	BIT_CLK     : out std_logic;
+	SCLK        : out std_logic
 		);
 	END COMPONENT;
 
@@ -42,6 +45,10 @@ ARCHITECTURE behavior OF pcm3168_tb_vhd IS
 
 	--Outputs
 	SIGNAL DOUT_1   :  std_logic := '0';
+	SIGNAL LR_CLK   :  std_logic := '0';
+	SIGNAL BIT_CLK  :  std_logic := '0';
+	SIGNAL SCLK     :  std_logic := '0';
+	
   
 
 BEGIN
@@ -52,15 +59,18 @@ BEGIN
 		CLK         => CLK,
 		RESET       => RESET,
 		DOUT_1      => DOUT_1,
-		DIN_1       => DIN_1
+		DIN_1       => DIN_1,
+		LR_CLK      => LR_CLK,
+		BIT_CLK     => BIT_CLK,
+		SCLK        => SCLK
 	);
 	
 	-- creates a reset signal at the start of the sequence 
 	p_reset : process
 	begin
-		RESET <= '0';
-		wait for 160 ns;
 		RESET <= '1';
+		wait for 160 ns;
+		RESET <= '0';
 		-- Reset finished
 		wait;
 	end process	p_reset;
@@ -82,37 +92,37 @@ BEGIN
 		if (first = 2) then 
 			first := 1;
 			DIN_1 <= '0';
-			wait for 320 ns;
+			wait for 800 ns;
 		end if;
 		i := 1;
 		while (i <= width) loop
 			i := i + 1;
 			DIN_1 <= '1';
-			wait for 80 ns;
+			wait for 320 ns;
 		end loop;
 		i := 1;
 		while (i <= width) loop
 			i := i + 1;
 			DIN_1 <= '0';
-			wait for 80 ns;
+			wait for 320 ns;
 			i := i + 1;
 			DIN_1 <= '1';
-			wait for 80 ns;
+			wait for 320 ns;
 		end loop;
 		i := 1;
 		while (i <= width) loop
 			i := i + 2;
 			DIN_1 <= '0';
-			wait for 160 ns;
+			wait for 640 ns;
 			i := i + 2;
 			DIN_1 <= '1';
-			wait for 160 ns;
+			wait for 640 ns;
 		end loop;
 		i := 1;
 		while (i <= width) loop
 			i := i + 1;
 			DIN_1 <= '0';
-			wait for 80 ns;
+			wait for 320 ns;
 		end loop;
 	end process p_din; 
 

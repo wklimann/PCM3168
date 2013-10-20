@@ -51,7 +51,7 @@ port(
 	DIN       : in  std_logic;      --Data Input
 	
 	-- Control ports
-	RESET     : in  std_logic;      --Asynchronous Reset (Active Low)
+	RESET     : in  std_logic;      --Asynchronous Reset (Active High)
 	
 	-- Parallel ports
 	DATA_L    : out std_logic_vector(width-1 downto 0);
@@ -76,7 +76,7 @@ begin
 	-- serial to parallel interface
 	i2s_in: process(RESET, BIT_CLK, LR_CLK, DIN)
 	begin
-		if(RESET = '0') then
+		if(RESET = '1') then
 		
 			DATA_L     <= (others => '0');
 			DATA_R     <= (others => '0');

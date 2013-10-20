@@ -51,7 +51,7 @@ port(
 	DOUT      : out std_logic;      --Data Output
 	
 	-- Control ports
-	RESET     : in  std_logic;      --Asynchronous Reset (Active Low)
+	RESET     : in  std_logic;      --Asynchronous Reset (Active High)
 	
 	-- Parallel ports 
 	-- use (width-1 downto 0); for big endian fotmat 
@@ -76,7 +76,7 @@ begin
 	-- serial to parallel interface
 	i2s_out: process(RESET, BIT_CLK, LR_CLK, DATA_L, DATA_R)
 	begin
-		if(RESET = '0') then
+		if(RESET = '1') then
 			
 			counter          <=  0;
 			s_current_lr     <= '0';

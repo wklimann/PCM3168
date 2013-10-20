@@ -43,9 +43,11 @@ use ieee.std_logic_1164.all;
 entity pcm3168 is 
 generic(
 	-- width: How many bits (from MSB) are gathered from the serial I2S input
-	width       : integer := 24;
+	width        : integer := 24;
+	-- sclk_divider: divides the system clock and has to be a multiple of 2
+	sclk_divider : integer := 4;  
 	-- clk_divider: divides the system clock and has to be a multiple of 2
-	clk_divider : integer := 4  
+	clk_divider  : integer := 4 
 );
 port(
 	--  I2S ports
@@ -53,11 +55,10 @@ port(
 	DOUT_1      : out std_logic;      --Date Output
 	LR_CLK      : out std_logic;      --Left/Right indicator clock
 	BIT_CLK     : out std_logic;      --Bit clock
-	
-	
 	-- Control ports
-	CLK         : in std_logic;       --System Clock
-	RESET       : in  std_logic       --Asynchronous Reset (Active Low)
+	CLK         : in  std_logic;       --System Clock
+	RESET       : in  std_logic;       --Asynchronous Reset (Active High)
+	SCLK        : out std_logic        --System Clock for the PCM3168 Audio Codec
 );
 end pcm3168;
 
@@ -69,6 +70,7 @@ architecture structural of pcm3168 is
 	signal s_data_r     : std_logic_vector(width-1 downto 0);
 	signal s_lr_clk     : std_logic;
 	signal s_bit_clk    : std_logic;
+	signal s_sclk       : std_logic;
 
 	component i2s_in is
 		generic(
@@ -114,11 +116,35 @@ architecture structural of pcm3168 is
 			LR_CLK       : out std_logic       --Left/Right Clock
 );
 	end component clk_gen;
+	
+	component sclk_gen is
+		generic(
+			sclk_divider : integer
+);
+		port(
+			CLK          : in std_logic;       --System clock
+			RESET        : in std_logic;       --Asynchronous Reset (Active Low)
+			SCLK         : out std_logic       --PCM3168 System Clock
+);
+	end component sclk_gen;
 		
 begin
 
-BIT_CLK <= s_bit_clk;
-LR_CLK  <= s_lr_clk;
+BIT_CLK   <= s_bit_clk;
+LR_CLK    <= s_lr_clk;
+SCLK      <= s_sclk;
+--s_data_l  <= (others => '0');
+--s_data_r  <= (others => '1');
+
+SCLK_PCM3168: sclk_gen 
+				generic map(
+						sclk_divider  =>  sclk_divider
+)
+				port map(
+						CLK        =>  CLK,
+						RESET      =>  RESET,
+						SCLK       =>  s_sclk
+);
 
 CLK_96k: clk_gen 
 				generic map(
@@ -126,7 +152,7 @@ CLK_96k: clk_gen
 						clk_divider  =>  clk_divider
 )
 				port map(
-						CLK        =>  CLK,
+						CLK        =>  s_sclk,
 						RESET      =>  RESET,
 						BIT_CLK    =>  s_bit_clk,
 						LR_CLK     =>  s_lr_clk
