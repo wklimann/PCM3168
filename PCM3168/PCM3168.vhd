@@ -131,8 +131,19 @@ architecture structural of pcm3168 is
 begin
 
 BIT_CLK   <= s_bit_clk;
-LR_CLK    <= s_lr_clk;
+--LR_CLK   <=  s_lr_clk;
 SCLK      <= s_sclk;
+
+-- buffers the lr_clk signal to compensate the proces I2S_IN and I2S_OUT (1 bit shift)
+lr_clk_buffer: process(RESET, s_bit_clk)
+begin
+	if(RESET = '1') then
+		LR_CLK   <=  '0';
+	elsif(s_bit_clk'event and s_bit_clk = '0') then
+		LR_CLK   <=  s_lr_clk;
+	end if;
+end process lr_clk_buffer;
+
 --s_data_l  <= (others => '0');
 --s_data_r  <= (others => '1');
 
